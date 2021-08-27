@@ -8,48 +8,49 @@
 </head>
 <body>
     <script>
-        
-        // function makeRequest(methodType, url, callback){
+
+        // UC2
+        function makeRequest(methodType, url, callback){
             
-        //     console.log(`Hellooooo`);
+            // console.log(`Hellooooo`);
+            const xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function(){
+                // console.log(xhttp.readyState);
+                if(xhttp.readyState == 4){
+                    if(xhttp.status >= 200 && xhttp.status < 300){
+                        callback(xhttp.responseText);
+                    }
+                    else{
+                        console.log(`Failure!!!`)
+                    }
+                }
+            }   
+            xhttp.open(methodType, url, callback);
+            xhttp.send();
+        }
+        function getUser(data){
+            console.log(data);
+        }
+    
+        // UC1
+        // function makeajaxcall() {
+
         //     const xhttp = new XMLHttpRequest();
-        //     xhttp.onreadystatechange = function(){
-        //         console.log(xhttp.readyState);
-        //         if(xhttp.readyState == 4){
-        //             if(xhttp.status >= 200 && xhttp.status < 300){
-        //                 callback(xhttp.responseText);
-        //             }
-        //             else{
-        //                 console.log(`Failure!!!`)
-        //             }
+        //     xhttp.onreadystatechange = function () {
+        //         // console.log(xhttp.readyState)
+        //         if (xhttp.readyState == 4) {
+        //             console.log(xhttp.responseText)
         //         }
-        //     }   
-        //     xhttp.open(methodType, url, callback);
+        //     }
+
+        //     xhttp.open("get", "hello.txt");
         //     xhttp.send();
         // }
-        // function getUser(data){
-        //     console.log(data);
-        // }
-    
-    
-    // UC1
-    function makeajaxcall() {
+        // makeajaxcall();
 
-        const xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            // console.log(xhttp.readyState)
-            if (xhttp.readyState == 4) {
-                console.log(xhttp.responseText)
-            }
-        }
-
-        xhttp.open("get", "hello.txt");
-        xhttp.send();
-    }
-    makeajaxcall();
     </script>
 
-    <!-- <button onclick="makeRequest('get', 'hello.txt', getUser)">Hey There</button> -->
+    <button onclick="makeRequest('get', 'hello.txt', getUser)">Hey There</button>
 
 </body>
 </html>
