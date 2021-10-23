@@ -8,48 +8,62 @@
 </head>
 <body>
     <script>
-        
-        // function makeRequest(methodType, url, callback){
-            
-        //     console.log(`Hellooooo`);
-        //     const xhttp = new XMLHttpRequest();
-        //     xhttp.onreadystatechange = function(){
-        //         console.log(xhttp.readyState);
-        //         if(xhttp.readyState == 4){
-        //             if(xhttp.status >= 200 && xhttp.status < 300){
-        //                 callback(xhttp.responseText);
-        //             }
-        //             else{
-        //                 console.log(`Failure!!!`)
-        //             }
-        //         }
-        //     }   
-        //     xhttp.open(methodType, url, callback);
-        //     xhttp.send();
-        // }
-        // function getUser(data){
-        //     console.log(data);
-        // }
-    
-    
-    // UC1
-    function makeajaxcall() {
 
-        const xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            // console.log(xhttp.readyState)
-            if (xhttp.readyState == 4) {
-                console.log(xhttp.responseText)
+        function makeRequest(methodType, url, callback, async=true, data=null){
+
+            // #1 -- initiating the connection
+            const xhttp = new XMLHttpRequest();
+
+            //check if the connection is right or not with the help of ready state & status
+            xhttp.onreadystatechange = function(){
+                if(xhttp.readyState == 4){
+                    if(xhttp.status >= 200 && xhttp.status < 300){
+                        callback(xhttp.responseText);
+                    }
+                    else{
+                        console.log(`Failure!!!`)
+                    }
+                }
+            }
+            // #2 -- Opening the connection with server   
+            xhttp.open(methodType, url, callback);
+
+            // #3 -- Exchanging data with server
+            if(data){
+                xhttp.setRequestHeader("Content-Type","application/json");
+                xhttp.send(JSON.stringify(data));
+            } else {
+                xhttp.send();
             }
         }
+        
+        baseURL = "http://localhost:3000/employees";
+        delURL = "http://localhost:3000/employees/7";
 
-        xhttp.open("get", "hello.txt");
-        xhttp.send();
-    }
-    makeajaxcall();
+        function getUser(data){
+            console.log(data);
+        }
+        
+        function delUser(data){
+            console.log(data); 
+        }
+        
+        //new object to be added
+        var newEmp =  {
+        "first_name": "Canaa",
+        "last_name": "Smith",
+        "email": "ann@codingthesmartway.com"
+        };
+
+        function addUser(data){
+            console.log(data);
+        }
+
     </script>
 
-    <!-- <button onclick="makeRequest('get', 'hello.txt', getUser)">Hey There</button> -->
-
+    <button onclick="makeRequest('get', baseURL, getUser)">Call Button</button>
+    <button onclick="makeRequest('Delete', delURL, delUser)">Delete Button</button>
+    <button onclick="makeRequest('post', baseURL, addUser, true, newEmp)">Add Button</button>
+    
 </body>
 </html>
